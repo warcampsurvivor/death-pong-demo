@@ -1,4 +1,4 @@
-# --- CONFIGURATION ---
+
 $gamePath = "C:\PATH\TO\Death Pong Demo"
 $managed = "$gamePath\Death Pong Demo_Data\Managed"
 $bepPath = "$gamePath\BepInEx\core"
