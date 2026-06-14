@@ -9,8 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 
-[BepInPlugin("com.bespoke.deathpong.trainer", "Death Pong Bespoke Trainer", "1.0.9")]
-public class BespokeTrainer : BaseUnityPlugin
+[BepInPlugin("com.deathpong.trainer", "Death Pong  Trainer", "1.0.9")]
+public class Trainer : BaseUnityPlugin
 {
     public static bool sober = true;
     public static bool infMoney = true;
@@ -40,7 +40,7 @@ public class BespokeTrainer : BaseUnityPlugin
 
     void Awake()
     {
-        Harmony harmony = new Harmony("com.bespoke.deathpong.trainer");
+        Harmony harmony = new Harmony("com..deathpong.trainer");
         harmony.PatchAll();
         Debug.Log("[Trainer] v1.0.9 - Physics & Bartender Overhaul Loaded.");
     }
@@ -185,7 +185,7 @@ public class BespokeTrainer : BaseUnityPlugin
 [HarmonyPatch(typeof(HandPlayer), "HandControls")]
 public static class Patch_Aimbot_ArmLock {
     static void Prefix(HandPlayer __instance, ref float minForce, ref float maxForce) {
-        if (BespokeTrainer.aimbot && __instance.ThrowState == ThrowState.Ready) {
+        if (Trainer.aimbot && __instance.ThrowState == ThrowState.Ready) {
             GameMode gm = UnityEngine.Object.FindFirstObjectByType<GameMode>();
             if (gm == null || gm.Cups == null) return;
 
@@ -230,7 +230,7 @@ public static class Patch_Aimbot_MagnetAndSafety {
             return;
         }
 
-        if (BespokeTrainer.aimbot && __instance.BallOwner == Turn.Player) {
+        if (Trainer.aimbot && __instance.BallOwner == Turn.Player) {
             Rigidbody rb = __instance.GetComponent<Rigidbody>();
             if (rb == null) return;
 
@@ -267,7 +267,7 @@ public static class Patch_ResetSafety { static void Postfix() { Traverse.Create(
 [HarmonyPatch(typeof(ShopController), "HideShotsSelection")]
 public static class Patch_UnlimitedShop {
     static bool Prefix() {
-        if (BespokeTrainer.bStays && !Input.GetKey(KeyCode.LeftShift)) return false;
+        if (Trainer.bStays && !Input.GetKey(KeyCode.LeftShift)) return false;
         return true;
     }
 }
@@ -275,7 +275,7 @@ public static class Patch_UnlimitedShop {
 [HarmonyPatch(typeof(Animator), "SetTrigger", new Type[] { typeof(string) })]
 public static class Patch_NoReverseBartender {
     static bool Prefix(string name) {
-        if (BespokeTrainer.bStays && name == "Reverse" && !Input.GetKey(KeyCode.LeftShift)) return false;
+        if (Trainer.bStays && name == "Reverse" && !Input.GetKey(KeyCode.LeftShift)) return false;
         return true;
     }
 }
@@ -284,41 +284,41 @@ public static class Patch_NoReverseBartender {
 public static class Patch_RigCoinToss { static bool Prefix(GameModeDeathPong __instance) { __instance.HandManager.CurrentTurn = Turn.Player; return false; } }
 
 [HarmonyPatch(typeof(HandManager), "CurrentTurn", MethodType.Setter)]
-public static class Patch_AlwaysMyTurn_Setter { static void Prefix(ref Turn value) { if (BespokeTrainer.myTurn) value = Turn.Player; } }
+public static class Patch_AlwaysMyTurn_Setter { static void Prefix(ref Turn value) { if (Trainer.myTurn) value = Turn.Player; } }
 
 [HarmonyPatch(typeof(HandManager), "ChangeCurrentTurn")]
-public static class Patch_AlwaysMyTurn_Method { static bool Prefix(HandManager __instance) { if (BespokeTrainer.myTurn) { __instance.CurrentTurn = Turn.Player; return false; } return true; } }
+public static class Patch_AlwaysMyTurn_Method { static bool Prefix(HandManager __instance) { if (Trainer.myTurn) { __instance.CurrentTurn = Turn.Player; return false; } return true; } }
 
 [HarmonyPatch(typeof(Hand), "DrunkennessLevel", MethodType.Getter)]
-public static class Patch_NoDrunkGetter { static void Postfix(ref float __result) { if (BespokeTrainer.sober) __result = 0f; } }
+public static class Patch_NoDrunkGetter { static void Postfix(ref float __result) { if (Trainer.sober) __result = 0f; } }
 
 [HarmonyPatch(typeof(HandPlayer), "ProcessShakeHand")]
-public static class Patch_NoShake { static bool Prefix() { return !BespokeTrainer.sober; } }
+public static class Patch_NoShake { static bool Prefix() { return !Trainer.sober; } }
 
 [HarmonyPatch(typeof(StrangeEffect), "OnRenderImage")]
 public static class Patch_NoDoubleVision {
     static bool Prefix(RenderTexture source, RenderTexture destination) {
-        if (BespokeTrainer.sober) { Graphics.Blit(source, destination); return false; }
+        if (Trainer.sober) { Graphics.Blit(source, destination); return false; }
         return true;
     }
 }
 
 [HarmonyPatch(typeof(CupRemover), "OnTriggerEnter")]
-public static class Patch_IronCups { static bool Prefix(CupRemover __instance, Collider other) { if (BespokeTrainer.ironCups) { Turn side = Traverse.Create(__instance).Field("_cupType").GetValue<Turn>(); if (side == Turn.Player && other.CompareTag("Ball")) return false; } return true; } }
+public static class Patch_IronCups { static bool Prefix(CupRemover __instance, Collider other) { if (Trainer.ironCups) { Turn side = Traverse.Create(__instance).Field("_cupType").GetValue<Turn>(); if (side == Turn.Player && other.CompareTag("Ball")) return false; } return true; } }
 
 [HarmonyPatch(typeof(GameModeDeathPong), "Timer")]
-public static class Patch_Timer { static bool Prefix() { return !BespokeTrainer.freezeTimer; } }
+public static class Patch_Timer { static bool Prefix() { return !Trainer.freezeTimer; } }
 
 [HarmonyPatch(typeof(GameMode), "IsPersistentIngredientOnList", new Type[] { typeof(Ingredients), typeof(HandType) })]
-public static class Patch_GodMode { static void Postfix(Ingredients ingredient, ref bool __result) { if (BespokeTrainer.godMode && ingredient == Ingredients.SecondChance) __result = true; } }
+public static class Patch_GodMode { static void Postfix(Ingredients ingredient, ref bool __result) { if (Trainer.godMode && ingredient == Ingredients.SecondChance) __result = true; } }
 
 [HarmonyPatch(typeof(IntroSceneManager), "Awake")]
-public static class Patch_IntroKill { static bool Prefix(IntroSceneManager __instance) { if (BespokeTrainer.skipAll) { int nextScene = Traverse.Create(__instance).Field("_nextScene").GetValue<int>(); SceneManager.LoadScene(nextScene); return false; } return true; } }
+public static class Patch_IntroKill { static bool Prefix(IntroSceneManager __instance) { if (Trainer.skipAll) { int nextScene = Traverse.Create(__instance).Field("_nextScene").GetValue<int>(); SceneManager.LoadScene(nextScene); return false; } return true; } }
 
 [HarmonyPatch(typeof(LobbyDialogueController), "Start")]
 public static class Patch_SkipLobbyIntro {
     static bool Prefix(LobbyDialogueController __instance) {
-        if (BespokeTrainer.skipAll) {
+        if (Trainer.skipAll) {
             var score = Traverse.Create(__instance).Field("_playerScore").GetValue<PlayerScore>();
             if (score != null) { score.isIntroFinished = true; score.isWinDialogueFinished = true; }
             var bs = Traverse.Create(__instance).Field("_blackScreen").GetValue<GameObject>();
@@ -340,18 +340,18 @@ public static class Patch_SkipLobbyIntro {
 }
 
 [HarmonyPatch(typeof(DialogueSO), "LettersSpeed", MethodType.Getter)]
-public static class Patch_DialogueSpeed { static bool Prefix(ref float __result) { if(BespokeTrainer.skipAll) { __result = 0f; return false; } return true; } }
+public static class Patch_DialogueSpeed { static bool Prefix(ref float __result) { if(Trainer.skipAll) { __result = 0f; return false; } return true; } }
 
 [HarmonyPatch(typeof(DialogueSO), "ShouldAutoComplete", MethodType.Getter)]
-public static class Patch_DialogueAuto { static bool Prefix(ref bool __result) { if(BespokeTrainer.skipAll) { __result = true; return false; } return true; } }
+public static class Patch_DialogueAuto { static bool Prefix(ref bool __result) { if(Trainer.skipAll) { __result = true; return false; } return true; } }
 
 [HarmonyPatch(typeof(DialogueSO), "AutoCompleteTime", MethodType.Getter)]
-public static class Patch_DialogueTime { static bool Prefix(ref float __result) { if(BespokeTrainer.skipAll) { __result = 0f; return false; } return true; } }
+public static class Patch_DialogueTime { static bool Prefix(ref float __result) { if(Trainer.skipAll) { __result = 0f; return false; } return true; } }
 
 [HarmonyPatch(typeof(LoadingScreenManager), "Start")]
 public static class Patch_SkipFadeInOnStart {
     static void Postfix(LoadingScreenManager __instance) {
-        if (BespokeTrainer.skipAll) {
+        if (Trainer.skipAll) {
             GameObject foc = Traverse.Create(__instance).Field("_fadeOutCanvas").GetValue<GameObject>();
             if (foc != null) {
                 foc.SetActive(false);
@@ -365,7 +365,7 @@ public static class Patch_SkipFadeInOnStart {
 [HarmonyPatch(typeof(LoadingScreenManager), "PrepareSceneLoading")]
 public static class Patch_FastLoadScene {
     static bool Prefix(LoadingScreenManager __instance, SceneType sceneType) {
-        if (BespokeTrainer.skipAll) {
+        if (Trainer.skipAll) {
             var ev = Traverse.Create(typeof(LoadingScreenManager)).Field("SceneLoadStart").GetValue<Action>();
             if (ev != null) ev();
             __instance.StartCoroutine(FastLoad(__instance, sceneType));
