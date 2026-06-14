@@ -1,21 +1,19 @@
-# death pong bespoke trainer
+# death pong trainer
 
 bepinex/harmony trainer for the death pong demo. adds a god-mode menu with
 the usual stuff plus a few game-specific toggles.
 
 ## features
 
-- no drunkenness (locks sobriety, kills the drunk shader/effects)
-- infinite cash
-- god mode (extra life never runs out)
-- autoplay (afk farm, throws on its own)
+- no drunkenness
+- god mode
+- autoplay
 - always my turn
 - aimbot (high arc lock on the nearest cup)
 - freeze match timer
 - sabotage ai (maxes enemy drunkenness)
 - iron cups (your cups can't be knocked out)
-- unlimited shop / summon bartender on demand
-- nuke enemy cups / regen your own cups
+- unlimited shop / summon bartender
 - skips intro, dialogue, loading screens, and demo watermark popups
 
 ## controls
@@ -24,7 +22,7 @@ the usual stuff plus a few game-specific toggles.
 - w/s or arrow keys: move selection
 - enter: toggle selected option
 
-## building it yourself
+## building it
 
 you need:
 
@@ -49,11 +47,11 @@ steps:
 
 ## install (prebuilt)
 
-drop `BespokeTrainer.dll` into `BepInEx\plugins` in your game folder. that's it.
+drop `Trainer.dll` into `BepInEx\plugins` in your game folder. that's it.
 
 ## notes
 
 buggy. some toggles can desync from the actual game state if you flip them
-mid-animation, aimbot can whiff on weird camera angles, and the demo
-watermark skip occasionally needs a second to kick in after a scene change.
-not actively maintaining this so don't expect fixes, use at your own risk.
+mid-animation, aimbot can whiff on weird camera angles,
+not actively maintaining this so don't expect fixes, its delivered as is.
+if you ask why didn't i precompile it for you, its because i believe in open source and if u have to open ghidra its against what im for
