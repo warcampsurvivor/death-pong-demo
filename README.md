@@ -54,4 +54,4 @@ drop `Trainer.dll` into `BepInEx\plugins` in your game folder. that's it.
 buggy. some toggles can desync from the actual game state if you flip them
 mid-animation, aimbot can whiff on weird camera angles,
 not actively maintaining this so don't expect fixes, its delivered as is.
-if you ask why didn't i precompile it for you, its because i believe in open source and if u have to open ghidra its against what im for
+if you ask why didn't i precompile it for you, its because i believe in open source and if u have to open ghidra its against what im all about
