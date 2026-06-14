@@ -43,7 +43,7 @@ steps:
 
 3. right click `build.ps1` -> run with powershell (or `powershell -ExecutionPolicy Bypass -File build.ps1`)
 4. if it says missing dll, double check your bepinex install and the path above
-5. on success it drops `BespokeTrainer.dll` straight into `BepInEx\plugins`
+5. on success it drops `Trainer.dll` straight into `BepInEx\plugins`
 
 ## install (prebuilt)
 
